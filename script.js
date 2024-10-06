@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stars = document.getElementById('stars');
     const finalStars = document.getElementById('finalStars');
     const finalFeedback = document.getElementById('finalFeedback');
+    const scoreText = document.getElementById('scoreText');
     const nextArrow = document.getElementById('nextArrow');
 
     const statements = [
@@ -35,19 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startGame() {
         startScreen.classList.add('hidden');
+        endScreen.classList.add('hidden');  // Piilotetaan loppupalaute
         gameScreen.classList.remove('hidden');
         currentRound = 0;
         score = 0;
         stars.innerHTML = '';
         gameQuestions = generateQuestions();
-        nextQuestion();
+        loadQuestionContent(gameQuestions[currentRound]);
+        playAudio('avaiv.mp3', () => {
+            playQuestionAudio();
+        });
     }
 
     function generateQuestions() {
         let questions = [];
         let trueCount = 0;
         
-        // Ensure at least 2 true statements
         while (trueCount < 2) {
             let index = Math.floor(Math.random() * 6);
             if (!questions.some(q => q.statementIndex === index)) {
@@ -56,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Fill the rest randomly
         while (questions.length < 5) {
             let statementIndex = Math.floor(Math.random() * 6);
             let imageIndex = Math.floor(Math.random() * 6);
@@ -69,23 +72,33 @@ document.addEventListener('DOMContentLoaded', () => {
         return questions;
     }
 
+    function loadQuestionContent(question) {
+        const { statementIndex, imageIndex } = question;
+        nalleImage.src = `kuva${imageIndex + 1}.avif`;
+        nalleImage.style.display = 'block';
+        this.question.textContent = statements[statementIndex];
+        nextArrow.classList.add('hidden');
+        trueButton.disabled = false;
+        falseButton.disabled = false;
+    }
+
+    function playQuestionAudio() {
+        const { statementIndex } = gameQuestions[currentRound];
+        playAudio(`aani${statementIndex + 1}.mp3`);
+    }
+
     function nextQuestion() {
-        if (currentRound < 5) {
-            const { statementIndex, imageIndex } = gameQuestions[currentRound];
-            question.textContent = statements[statementIndex];
-            nalleImage.src = `kuva${imageIndex + 1}.avif`;
-            playAudio(`aani${statementIndex + 1}.mp3`);
-            nextArrow.classList.add('hidden');
-            trueButton.disabled = false;
-            falseButton.disabled = false;
+        if (currentRound < 4) {
             currentRound++;
+            loadQuestionContent(gameQuestions[currentRound]);
+            playQuestionAudio();
         } else {
             endGame();
         }
     }
 
     function checkAnswer(isTrue) {
-        const { statementIndex, imageIndex } = gameQuestions[currentRound - 1];
+        const { statementIndex, imageIndex } = gameQuestions[currentRound];
         const correctAnswer = statementIndex === imageIndex;
         if ((isTrue && correctAnswer) || (!isTrue && !correctAnswer)) {
             score++;
@@ -96,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         trueButton.disabled = true;
         falseButton.disabled = true;
-        if (currentRound < 5) {
+        if (currentRound < 4) {
             nextArrow.classList.remove('hidden');
         } else {
             setTimeout(endGame, 1000);
@@ -120,19 +133,20 @@ document.addEventListener('DOMContentLoaded', () => {
             star.classList.add('star');
             finalStars.appendChild(star);
         }
-        finalFeedback.innerHTML = `<p>HIENOA!</p><p>${score}/5 OIKEIN</p>`;
+        finalFeedback.textContent = 'HIENOA!';
+        scoreText.textContent = `${score}/5 OIKEIN`;
     }
 
-    function playAudio(filename) {
+    function playAudio(filename, callback) {
         const audio = new Audio(filename);
         audio.play();
+        if (callback) {
+            audio.onended = callback;
+        }
     }
 
     startButton.addEventListener('click', startGame);
-    playAgainButton.addEventListener('click', () => {
-        endScreen.classList.add('hidden');
-        startGame();
-    });
+    playAgainButton.addEventListener('click', startGame);
     trueButton.addEventListener('click', () => checkAnswer(true));
     falseButton.addEventListener('click', () => checkAnswer(false));
     nextArrow.addEventListener('click', nextQuestion);
