@@ -125,13 +125,13 @@ h1, h2 {
 
 @media (max-width: 600px) {
     .game-button {
-        width: 80px;
-        height: 80px;
-        font-size: 14px;
+        width: 70px;  /* Pienennetty 80px:stä 70px:iin */
+        height: 70px; /* Pienennetty 80px:stä 70px:iin */
+        font-size: 12px; /* Pienennetty 14px:stä 12px:iin */
     }
 
     #nalleImage {
-        width: 90%;
+        width: 95%; /* Suurennettu 90%:sta 95%:iin */
     }
 
     #nextArrow {
@@ -140,10 +140,10 @@ h1, h2 {
     }
 
     .game-button.true {
-        margin-bottom: 60px; /* Lisää tilaa painikkeiden väliin */
+        margin-bottom: 50px; /* Pienennetty 60px:stä 50px:iin */
     }
 
     .game-button.false {
-        margin-bottom: 60px; /* Lisää tilaa painikkeiden väliin */
+        margin-bottom: 50px; /* Pienennetty 60px:stä 50px:iin */
     }
 }
