@@ -17,6 +17,7 @@
         <div id="gameScreen" class="hidden">
             <h2 id="question"></h2>
             <div id="gameArea">
+                <img id="speakerIcon" class="speaker-icon" src="kaiutin.png" alt="Kuuntele">
                 <div class="image-container">
                     <img id="nalleImage" src="" alt="Nalle">
                 </div>
@@ -25,7 +26,7 @@
                     <button id="falseButton" class="game-button false">VÄÄRIN</button>
                 </div>
                 <div class="arrow-container">
-                    <img id="nextArrow" src="nuoli.png" alt="Seuraava">
+                    <img id="nextArrow" src="nuoli.png" alt="Seuraava" class="hidden">
                 </div>
                 <div id="stars"></div>
             </div>
@@ -33,7 +34,7 @@
 
         <div id="endScreen" class="hidden">
             <h1>VESSALAULU</h1>
-            <p id="finalFeedback"></p>
+            <p id="finalFeedback">HIENOA!</p>
             <p id="scoreText"></p>
             <div id="finalStars"></div>
             <button id="playAgainButton">PELAA UUDELLEEN</button>

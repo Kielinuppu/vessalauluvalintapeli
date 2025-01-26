@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalFeedback = document.getElementById('finalFeedback');
     const scoreText = document.getElementById('scoreText');
     const nextArrow = document.getElementById('nextArrow');
+    const speakerIcon = document.getElementById('speakerIcon');
 
     const statements = [
         "NALLELLA ON VESSAHÄTÄ",
@@ -167,4 +168,5 @@ document.addEventListener('DOMContentLoaded', () => {
     playAgainButton.addEventListener('click', startGame);
     trueButton.addEventListener('click', () => checkAnswer(true));
     falseButton.addEventListener('click', () => checkAnswer(false));
+    speakerIcon.addEventListener('click', playQuestionAudio);
 });
